@@ -4,6 +4,13 @@ export default {
         movie: {
             type: Object,
             required: true
+        },
+    },
+    methods: {
+        getUrl() {
+            const url = 'https://image.tmdb.org/t/p/w500';
+            const imgUrl = this.movie.backdrop_path;
+            return url + imgUrl;
         }
     }
 }
@@ -12,7 +19,10 @@ export default {
 <template>
     <div class="card column">
 
+        <img :src="getUrl()" alt="">
+
         <h2 class="og-title">{{ movie.original_title }}</h2>
+
         <h3 class="title">{{ movie.title }}</h3>
 
         <figure class="flag" v-if="movie.original_language === 'en'">

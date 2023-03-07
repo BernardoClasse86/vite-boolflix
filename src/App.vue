@@ -27,11 +27,6 @@ export default {
       store,
     }
   },
-  computed: {
-    movies() {
-      return this.store.movies
-    },
-  },
   methods: {
     fetchMovies() {
       const search = this.store.search
@@ -46,6 +41,7 @@ export default {
           this.store.movies = res.data.results
           console.log(res.data.results)
         })
+
       // axios
       //   .get(`https://api.themoviedb.org/3/search/tv?api_key=6a24e6efb580fd2e4990063ae815b869&query=${search}`, {
 
@@ -54,8 +50,12 @@ export default {
       //     }
       //   })
       //   .then((res) => {
-      //     this.store.movies = res.data.results
+      //     this.store.series = res.data.results
+      //     console.log(res.data.results)
       //   })
+
+      // this.store.moviesAndSeries = [...this.store.movies, ...this.store.series]
+
     }
   },
   created() {
@@ -82,8 +82,9 @@ export default {
 }
 
 .main-content {
-  padding: 2rem 0 0;
+  padding: 2rem 2rem;
   flex-grow: 1;
+  overflow: auto;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
