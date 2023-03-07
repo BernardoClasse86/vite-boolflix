@@ -60,7 +60,8 @@ export default {
 .card.column {
     padding: 1rem;
     color: white;
-    background-color: black;
+    border: 2px solid white;
+    background-color: rgb(64, 64, 64);
 
     .og-title {
         font-size: 1rem;

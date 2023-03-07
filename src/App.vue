@@ -1,6 +1,6 @@
 <template>
-  <div class="column">
-    <div class="container main-header">
+  <div class="column page">
+    <div class="main-header">
       <AppHeader @onSearch="fetchMovies" />
     </div>
 
@@ -70,12 +70,19 @@ export default {
 @use './style/partials/reset' as *;
 @use './style/partials/variables' as *;
 
+.page {
+  height: 100vh;
+  background-color: black;
+}
+
 .main-header {
   flex-shrink: 0;
   padding: 1rem;
+  background-color: $header-bg;
 }
 
 .main-content {
+  padding: 2rem 0 0;
   flex-grow: 1;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
