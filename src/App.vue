@@ -96,6 +96,6 @@ export default {
   padding: 2rem 2rem;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  row-gap: 1rem;
+  gap: 1rem;
 }
 </style>
