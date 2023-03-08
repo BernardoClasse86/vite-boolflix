@@ -1,15 +1,3 @@
-<template>
-  <div class="column page">
-    <div class="main-header">
-      <AppHeader @onSearch="fetchMovies" />
-    </div>
-
-    <div class="container main-content">
-      <AppMain v-for="movie in store.movies" :key="movie.id" :movie="movie" />
-    </div>
-  </div>
-</template>
-
 <script>
 import AppHeader from './components/AppHeader.vue';
 import AppMain from './components/AppMain.vue';
@@ -28,42 +16,62 @@ export default {
     }
   },
   methods: {
-    fetchMovies() {
+    fetchToWatch() {
       const search = this.store.search
-      axios
-        .get(`https://api.themoviedb.org/3/search/movie?api_key=6a24e6efb580fd2e4990063ae815b869&query=${search}`, {
 
-          params: {
-            query: search
-          }
-        })
+      axios.all([
+
+        axios
+          .get(`https://api.themoviedb.org/3/search/movie?api_key=6a24e6efb580fd2e4990063ae815b869&query=${search}`, {
+
+            params: {
+              query: search
+            }
+          }),
+
+        axios
+          .get(`https://api.themoviedb.org/3/search/tv?api_key=6a24e6efb580fd2e4990063ae815b869&query=${search}`, {
+
+            params: {
+              query: search
+            }
+          })
+      ])
         .then((res) => {
-          this.store.movies = res.data.results
-          console.log(res.data.results)
+          const movies = res[0].data.results
+          const series = res[1].data.results
+
+          this.store.movies = movies
+          this.store.series = series
+          console.log('movies', movies)
+          console.log('series', series)
+
+          this.store.moviesAndSeries = [...movies, ...series]
+          console.log(this.store.moviesAndSeries)
         })
-
-      // axios
-      //   .get(`https://api.themoviedb.org/3/search/tv?api_key=6a24e6efb580fd2e4990063ae815b869&query=${search}`, {
-
-      //     params: {
-      //       query: search
-      //     }
-      //   })
-      //   .then((res) => {
-      //     this.store.series = res.data.results
-      //     console.log(res.data.results)
-      //   })
-
-      // this.store.moviesAndSeries = [...this.store.movies, ...this.store.series]
 
     }
   },
   created() {
-    this.fetchMovies()
+    this.fetchToWatch()
   },
 }
   ;
 </script>
+
+<template>
+  <div class="column page">
+    <div class="main-header">
+      <AppHeader @onSearch="fetchToWatch" />
+    </div>
+
+    <div class="container main">
+      <div class="main-content">
+        <AppMain v-for="toWatch in store.moviesAndSeries" :key="toWatch.id" :toWatch="toWatch" />
+      </div>
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 @use './style/generals.scss' as *;
@@ -71,7 +79,6 @@ export default {
 @use './style/partials/variables' as *;
 
 .page {
-  height: 100vh;
   background-color: black;
 }
 
@@ -81,10 +88,12 @@ export default {
   background-color: $header-bg;
 }
 
+.container.main {
+  flex-grow: 1;
+}
+
 .main-content {
   padding: 2rem 2rem;
-  flex-grow: 1;
-  overflow: auto;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
