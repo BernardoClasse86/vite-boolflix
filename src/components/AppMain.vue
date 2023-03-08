@@ -22,7 +22,7 @@ export default {
     },
     methods: {
         getUrl() {
-            const url = 'https://image.tmdb.org/t/p/w500';
+            const url = 'https://image.tmdb.org/t/p/original';
             const imgUrl = this.toWatch.backdrop_path;
 
             if (imgUrl) {
@@ -65,16 +65,19 @@ export default {
 @use '../style/partials/variables' as *;
 
 .card.column {
-    padding: 1rem;
     color: white;
     border: 1px solid white;
     justify-content: space-between;
     background-color: rgb(64, 64, 64);
     position: relative;
-    height: 460px;
+    height: 400px;
 }
 
 .card__thumb {
+    max-width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
     z-index: 1;
     transition: opacity 0.3s ease-out;
 }

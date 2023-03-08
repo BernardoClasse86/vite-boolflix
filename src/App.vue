@@ -95,7 +95,7 @@ export default {
 .main-content {
   padding: 2rem 2rem;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
+  grid-template-columns: repeat(6, 1fr);
+  row-gap: 1rem;
 }
 </style>
